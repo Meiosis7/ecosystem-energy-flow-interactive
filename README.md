@@ -16,7 +16,7 @@
 
 直接访问在线演示，或下载 `energy-flow-offline.html`，在浏览器打开即可离线使用。
 
-源文件为 `index.html` 和 `assets/`，部署无需构建或外部服务。
+源文件为 `index.html` 和 `assets/`，部署无需构建或外部服务。在线版使用轻量WebP图片，PNG源图与自包含离线版一并保留。
 
 ## 教学说明
 

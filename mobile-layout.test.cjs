@@ -1,19 +1,16 @@
 const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/strict');
-const html=fs.readFileSync(__dirname+'/index.html','utf8'),ctx={};
-vm.createContext(ctx);vm.runInContext(html.match(/<script id="lesson-model">([\s\S]*?)<\/script>/)[1]+';this.L=Lessons;this.M=typeof MobileLayout!=="undefined"?MobileLayout:null;',ctx);
-assert.ok(ctx.M,'Phone lessons need a portrait layout instead of shrinking the desktop canvas');
-for(const mode of ['producer','primary','secondary'])for(const period of [false,true]){
- const original=ctx.L.build(mode,period),snapshot=JSON.stringify(original),layout=ctx.M.build(original,mode);
- assert.equal(layout.width,420);
- assert.deepEqual(Array.from(layout.nodes,n=>n.id),Array.from(original.nodes,n=>n.id));
- for(const n of layout.nodes){const old=original.nodes.find(v=>v.id===n.id);assert.equal(n.show,old.show);assert.equal(n.value,old.value);assert.equal(n.text,old.text);assert.ok(n.x>=0&&n.x<=420)}
- assert.deepEqual(Array.from(layout.edges,e=>[e.from,e.to,e.show]),Array.from(original.edges,e=>[e.from,e.to,e.show]));
- let previousHeight=0;
- for(let step=0;step<original.steps.length;step++){
-  const h=layout.heightAt(step);assert.ok(h>=previousHeight,'Expansion must not move or crop prior content');previousHeight=h;
-  for(const n of layout.nodes.filter(n=>n.show<=step))assert.ok(n.y+(n.sprite>=0?110:60)<h,`Visible node ${n.id} must fit`);
- }
- assert.ok(layout.heightAt(0)<450,'Opening phone scene should fit roughly one phone viewport');
- assert.equal(JSON.stringify(original),snapshot,'Portrait layout must not mutate teaching data');
+const html=fs.readFileSync(__dirname+'/index.html','utf8');
+function app(phone){const els={},modes=['producer','primary','secondary','overview'].map(mode=>({dataset:{mode},setAttribute(){}}));
+function el(id){return els[id]??={value:0,checked:false,innerHTML:'',textContent:'',style:{setProperty(){}},classList:{add(){},remove(){},toggle(){}},setAttribute(k,v){this[k]=v},querySelectorAll(){return[]},scrollIntoView(){},getBoundingClientRect(){return{top:0}},clientWidth:360}}
+const c={document:{getElementById:el,querySelectorAll:()=>modes,addEventListener(){}},window:{matchMedia:()=>({matches:phone,addEventListener(){}}),scrollTo(){},scrollY:0,innerHeight:800},setTimeout(){},clearTimeout(){}};vm.createContext(c);for(const m of html.matchAll(/<script[^>]*>([\s\S]*?)<\/script>/g))vm.runInContext(m[1],c);return{els,modes}}
+const phone=app(true),desktop=app(false);
+for(let mode=0;mode<4;mode++){
+phone.modes[mode].onclick();desktop.modes[mode].onclick();
+for(let step=0;step<4;step++){
+assert.equal(phone.els.canvas['data-layout'],'landscape','Phone keeps the horizontal flow');
+assert.equal(phone.els.diagram.viewBox,desktop.els.diagram.viewBox);
+assert.equal(phone.els.diagram.innerHTML,desktop.els.diagram.innerHTML,'Same teaching positions, arrows and labels on phone and desktop');
+phone.els.next.onclick();desktop.els.next.onclick();}
 }
-console.log('PASS: portrait scenes retain biological data, cumulative stages, visible extents and a compact opening');
+assert.equal(phone.els['fit-view'].textContent,'放大细看');phone.els['fit-view'].onclick();assert.equal(phone.els['fit-view'].textContent,'完整画面');assert.equal(phone.els.canvas['data-layout'],'landscape');
+console.log('PASS: 手机默认横向、分步位置与桌面一致、放大查看不切换为竖向');

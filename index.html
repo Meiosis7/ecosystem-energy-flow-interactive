@@ -118,7 +118,69 @@ body.manual-landscape .canvas>svg{min-width:1020px}
 body.manual-landscape .canvas.fit>svg{min-width:0}
 @media(max-width:1024px) and (max-height:600px) and (orientation:landscape){.reading-controls{display:none}header{display:block}.brand{padding:4px 14px}.brand b{font-size:12px}}
 
-</style></head><body><div id="lesson-page"><header><div class="brand"><b>一生儿《高中生物一本通》· 选择性必修 2</b></div></header><div class="reading-controls"><button id="landscape-toggle" aria-pressed="false">横屏阅读</button></div><main><div class="masthead"><h1>生态系统的<span>能量流动</span></h1></div>
+
+/* Fill the teaching viewport, including browsers without native fullscreen. */
+.presentation-exit{display:none}
+body.presentation-mode{overflow:hidden;padding:0;height:100dvh}
+body.presentation-mode #lesson-page{position:fixed;inset:0;z-index:100;width:100%;height:100dvh;overflow:hidden;display:flex;flex-direction:column;background:var(--paper)}
+body.presentation-mode.manual-landscape #lesson-page{inset:auto;top:0;left:100%;width:100dvh;height:100dvw;transform:rotate(90deg);transform-origin:0 0}
+body.presentation-mode header,body.presentation-mode .masthead,body.presentation-mode main>nav,body.presentation-mode main>.note,body.presentation-mode .orientation-tip{display:none!important}
+body.presentation-mode .reading-controls{display:flex;flex:none;align-items:center;justify-content:flex-end;gap:8px;padding:2px max(8px,env(safe-area-inset-right,0px)) 2px max(8px,env(safe-area-inset-left,0px));min-height:32px;position:static;border:0;background:#244c3a;color:#fff9e8}
+body.presentation-mode #landscape-toggle{display:none}
+body.presentation-mode .presentation-exit{display:inline-flex;align-items:center;min-height:28px;padding:2px 10px;font-size:11px;border-color:#c0cfaa;background:#fff9e8}
+body.presentation-mode main{display:flex;flex:1;flex-direction:column;min-height:0;padding:0;margin:0;width:100%;max-width:none}
+body.presentation-mode .board{display:flex;flex:1;flex-direction:column;min-height:0;margin:0;width:100%;border:0;border-radius:0;box-shadow:none;overflow:hidden}
+body.presentation-mode .board-head{flex:none;flex-direction:row;align-items:center;gap:8px;padding:4px 10px}
+body.presentation-mode .board-head h2{font-size:14px}
+body.presentation-mode .options{font-size:10px;gap:9px}
+body.presentation-mode .options label{min-height:24px}
+body.presentation-mode #teaching{display:flex;flex:1;flex-direction:column;min-height:0}
+body.presentation-mode .canvas{order:1;flex:1;min-height:0;overflow:hidden}
+body.presentation-mode .canvas>svg{position:absolute;inset:0;min-width:0;width:100%;height:100%;max-height:none;aspect-ratio:auto!important}
+body.presentation-mode .scene-tags,body.presentation-mode .mobile-hint{display:none}
+body.presentation-mode .controls{order:2;flex:none;display:flex;flex-wrap:nowrap;align-items:center;gap:8px;padding:3px 10px;min-height:36px}
+body.presentation-mode .buttons{position:static;display:flex;flex:none;gap:5px;padding:0;background:transparent;border:0;border-radius:0;box-shadow:none;backdrop-filter:none}
+body.presentation-mode .buttons button{min-height:30px;padding:4px 9px;font-size:12px;white-space:nowrap}
+body.presentation-mode .buttons #next{font-size:12px}
+body.presentation-mode .dots{flex-shrink:1;min-width:0;width:auto;margin-left:auto;gap:0;overflow:auto}
+body.presentation-mode .dot{width:19px;min-width:19px;height:27px}
+body.presentation-mode .counter{font-size:11px;white-space:nowrap}
+body.presentation-mode .legend-wrap{order:3;flex:none;flex-direction:row;flex-wrap:nowrap;align-items:center;padding:2px 10px;gap:6px}
+body.presentation-mode .legend,body.presentation-mode #fullscreen,body.presentation-mode #fit-view{display:none}
+body.presentation-mode .viewer-tools{display:flex;width:auto;margin-left:auto}
+body.presentation-mode .viewer-tools button{min-height:26px;padding:2px 8px;font-size:10px}
+body.presentation-mode .explain{order:0;flex:none;min-height:0;padding:4px 10px;border:0;border-bottom:1px solid #e0d4a9}
+body.presentation-mode .explain:before{display:none}
+body.presentation-mode .explanation-toggle{display:block;position:absolute;top:2px;right:8px;min-height:26px;font-size:10px;padding:2px 7px}
+body.presentation-mode .explain h3{font-size:12px;line-height:1.5;margin:0 80px 0 0}
+body.presentation-mode .explain:not(.expanded) p{display:none}
+body.presentation-mode .explain.expanded p{display:block;font-size:11px;line-height:1.45}
+body.presentation-mode .explain.expanded{max-height:30%;overflow:auto}
+body.presentation-mode .next-lesson{min-height:28px;width:auto;margin:4px 0 0;font-size:11px;padding:3px 8px}
+body.presentation-mode .conversion{order:1;flex:1;min-height:0;overflow:auto;padding:8px 12px}
+body.presentation-mode #teaching.converting .canvas{display:none}
+body.presentation-mode .conversion-head{flex-direction:row;align-items:center}
+body.presentation-mode .conversion-head h3{font-size:15px}
+body.presentation-mode .conversion-equation{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr) 18px minmax(0,1fr);gap:6px;margin-top:7px}
+body.presentation-mode .quantity{min-height:64px;flex-direction:row;align-items:center;padding:7px 9px;gap:4px}
+body.presentation-mode .quantity small{font-size:11px}
+body.presentation-mode .quantity strong{font-size:24px}
+body.presentation-mode .quantity span{font-size:10px}
+body.presentation-mode .operation{font-size:21px}
+body.presentation-mode .partition{height:23px;margin-top:7px;font-size:11px}
+body.presentation-mode .conversion-bottom{flex-direction:row;align-items:center;gap:8px;margin-top:7px}
+body.presentation-mode .conversion-bottom button{min-height:30px;font-size:11px;padding:4px 8px}
+body.presentation-mode .conversion-bottom p{font-size:11px;line-height:1.45}
+body.presentation-mode .conversion-assumption{margin-top:5px;font-size:10px}
+body.presentation-mode .calculation{flex:1;min-height:0;overflow:auto;grid-template-columns:minmax(150px,.65fr) minmax(0,1fr);gap:18px;padding:10px 14px}
+
+
+/* Keep the exit over the compact title row so the diagram gets the height. */
+body.presentation-mode .reading-controls{position:absolute;top:0;right:0;z-index:5;background:transparent;padding:2px 4px;min-height:0}
+body.presentation-mode .board-head{padding-right:105px}
+body.presentation-mode .legend-wrap{display:none}
+body.presentation-mode .explain:not(.expanded) #step-text,body.presentation-mode .explain:not(.expanded) #formula{display:none}
+</style></head><body><div id="lesson-page"><header><div class="brand"><b>一生儿《高中生物一本通》· 选择性必修 2</b></div></header><div class="reading-controls"><button id="landscape-toggle" aria-pressed="false">横屏阅读</button><button id="presentation-exit" class="presentation-exit">退出全屏 ↙</button></div><main><div class="masthead"><h1>生态系统的<span>能量流动</span></h1></div>
 <aside class="orientation-tip" id="orientation-tip" aria-label="横屏观看提示" hidden><svg class="rotate-phone" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 17A18 18 0 0 1 38 10M38 3v8h-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><g class="phone-outline"><rect x="15" y="10" width="18" height="29" rx="4" fill="#fffbee" stroke="currentColor" stroke-width="2.2"/><path d="M21 34h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g></svg><div class="orientation-copy"><strong>横屏观看，能量去路更清楚</strong><p>可旋转手机；若页面没有转动，点击“切换横屏”。</p><div class="orientation-actions"><button id="orientation-start" class="primary">切换横屏</button><button id="orientation-dismiss">知道了</button><button id="orientation-portrait">继续竖屏</button></div></div></aside>
 <nav aria-label="学习内容"><button data-mode="producer" aria-pressed="true"><small>01</small>生产者</button><button data-mode="primary" aria-pressed="false"><small>02</small>初级消费者</button><button data-mode="secondary" aria-pressed="false"><small>03</small>次级消费者</button><button data-mode="overview" aria-pressed="false"><small>04</small>全程总览</button><button data-mode="efficiency" aria-pressed="false"><small>05</small>传递效率</button></nav>
 <section class="board" id="board"><div class="board-head"><div><h2 id="lesson-title"></h2></div><div class="options" id="options"><label><input type="checkbox" id="numbers">显示示例数值</label><label><input type="checkbox" id="period">分析一定时间内的去向</label></div></div>
@@ -183,7 +245,29 @@ $('fit-view').onclick=()=>{fitted=!fitted;$('canvas').classList.toggle('fit',fit
 (()=>{
  if(typeof window==='undefined'||!window.matchMedia)return;
  const $=id=>document.getElementById(id),tip=$('orientation-tip'),portrait=window.matchMedia('(max-width:640px) and (orientation:portrait)'),key='energy-flow-orientation-dismissed';
- let dismissed=false,shown=false,expanded=false,manual=false;
+ let dismissed=false,shown=false,expanded=false,manual=false,presenting=false,nativeEntered=false;
+ function setPresentation(active){
+  presenting=active;document.body.classList.toggle('presentation-mode',active);
+  if(!active){setLandscape(false);return}
+  dismiss();
+ }
+ function leavePresentation(){
+  setPresentation(false);
+  const exit=document.exitFullscreen||document.webkitExitFullscreen;
+  if((document.fullscreenElement||document.webkitFullscreenElement)&&exit){try{const pending=exit.call(document);if(pending&&pending.catch)pending.catch(()=>{})}catch(e){}}
+ }
+ function enterPresentation(){
+  setLandscape(true);setPresentation(true);
+  const root=document.documentElement,request=root&&(root.requestFullscreen||root.webkitRequestFullscreen);
+  if(request){try{const pending=request.call(root);if(pending&&pending.catch)pending.catch(()=>{})}catch(e){}}
+ }
+ if(document.addEventListener){
+  const changed=()=>{const active=!!(document.fullscreenElement||document.webkitFullscreenElement);if(active){nativeEntered=true}else if(nativeEntered){nativeEntered=false;setPresentation(false)}};
+  document.addEventListener('fullscreenchange',changed);document.addEventListener('webkitfullscreenchange',changed);
+  document.addEventListener('keydown',e=>{if(e.key==='Escape'&&presenting)leavePresentation()});
+ }
+ $('presentation-exit').onclick=leavePresentation;
+ $('fullscreen').onclick=()=>{if(presenting)leavePresentation();else enterPresentation()};
  function setLandscape(active){
   manual=active&&window.innerHeight>window.innerWidth;
   document.body.classList.toggle('manual-landscape',manual);
@@ -191,8 +275,8 @@ $('fit-view').onclick=()=>{fitted=!fitted;$('canvas').classList.toggle('fit',fit
   $('landscape-toggle').textContent=manual?'退出横屏':'横屏阅读';
   if(active)dismiss();
  }
- $('orientation-start').onclick=()=>setLandscape(true);
- $('landscape-toggle').onclick=()=>setLandscape(!manual);
+ $('orientation-start').onclick=enterPresentation;
+ $('landscape-toggle').onclick=()=>{if(manual)leavePresentation();else enterPresentation()};
  if(window.addEventListener)window.addEventListener('resize',()=>{if(manual&&window.innerWidth>window.innerHeight)setLandscape(false)});
  try{dismissed=window.sessionStorage.getItem(key)==='1'}catch(e){}
  function dismiss(){dismissed=true;tip.hidden=true;try{window.sessionStorage.setItem(key,'1')}catch(e){}}

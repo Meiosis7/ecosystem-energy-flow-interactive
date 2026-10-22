@@ -3,7 +3,7 @@ const html=fs.readFileSync(__dirname+'/index.html','utf8');
 const source=html.match(/<script id="mobile-guidance">([\s\S]*?)<\/script>/)[1];
 function start(){
  const elements={},classes=new Set(),events={},media={matches:true,addEventListener(_,fn){this.change=fn}};
- for(const id of ['orientation-tip','orientation-dismiss','orientation-portrait','orientation-start','landscape-toggle','explanation-toggle','step-explanation','lesson-page'])elements[id]={hidden:true,textContent:'',attrs:{},setAttribute(k,v){this.attrs[k]=v},classList:{toggle(){}}};
+ for(const id of ['presentation-exit','fullscreen','orientation-tip','orientation-dismiss','orientation-portrait','orientation-start','landscape-toggle','explanation-toggle','step-explanation','lesson-page'])elements[id]={hidden:true,textContent:'',attrs:{},setAttribute(k,v){this.attrs[k]=v},classList:{toggle(){}}};
  const win={innerWidth:390,innerHeight:844,matchMedia:()=>media,sessionStorage:{getItem(){return null},setItem(){}},addEventListener(k,fn){events[k]=fn}};
  const doc={getElementById:id=>elements[id],body:{classList:{toggle(k,v){v?classes.add(k):classes.delete(k)},contains:k=>classes.has(k)}}};
  vm.runInNewContext(source,{document:doc,window:win});

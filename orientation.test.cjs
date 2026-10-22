@@ -4,7 +4,7 @@ const source=html.match(/<script id="mobile-guidance">([\s\S]*?)<\/script>/);
 assert.ok(source,'Mobile orientation guidance must be present');
 function start(portrait,storage=new Map(),blocked=false){
  const elements={};
- for(const id of ['orientation-start','landscape-toggle','orientation-tip','orientation-dismiss','orientation-portrait','explanation-toggle','step-explanation']) elements[id]={hidden:true,textContent:'',attrs:{},setAttribute(k,v){this.attrs[k]=v},classList:{toggle(k,v){this[k]=v}}};
+ for(const id of ['presentation-exit','fullscreen','orientation-start','landscape-toggle','orientation-tip','orientation-dismiss','orientation-portrait','explanation-toggle','step-explanation']) elements[id]={hidden:true,textContent:'',attrs:{},setAttribute(k,v){this.attrs[k]=v},classList:{toggle(k,v){this[k]=v}}};
  const media={matches:portrait,addEventListener(_,fn){this.change=fn}};
  vm.runInNewContext(source[1],{document:{getElementById:id=>elements[id]},window:{matchMedia:()=>media,sessionStorage:{getItem(k){if(blocked)throw Error('blocked');return storage.get(k)},setItem(k,v){if(blocked)throw Error('blocked');storage.set(k,v)}}}});
  return{elements,rotate(p){media.matches=p;media.change()}};

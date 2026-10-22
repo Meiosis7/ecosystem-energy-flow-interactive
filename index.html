@@ -33,13 +33,98 @@ header{background:#244c3a;color:#fff9e8;border-bottom:2px solid #dab963}.brand{m
  .board:fullscreen{display:flex;padding:0;height:100dvh;overflow:auto}.board:fullscreen .board-head{display:none}.board:fullscreen #teaching{flex:1;min-height:0}.board:fullscreen .canvas{flex:1;min-height:150px}.board:fullscreen .canvas>svg{position:absolute;inset:0;width:100%;height:100%;min-width:0;aspect-ratio:auto!important}.board:fullscreen .explain{padding:6px 13px}.board:fullscreen .legend{display:none}.board:fullscreen .viewer-tools{margin-left:auto}.board:fullscreen #teaching.converting .canvas{flex:none;height:180px}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}.particles{display:none}}
-</style></head><body><header><div class="brand"><b>一生儿 · 《高中生物一本通》</b><span>选择性必修 2 · 生态系统的能量流动</span></div></header><main><div class="masthead"><h1>生态系统的<span>能量流动</span></h1></div>
-<aside class="orientation-tip" id="orientation-tip" aria-label="横屏观看提示" hidden><svg class="rotate-phone" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 17A18 18 0 0 1 38 10M38 3v8h-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><g class="phone-outline"><rect x="15" y="10" width="18" height="29" rx="4" fill="#fffbee" stroke="currentColor" stroke-width="2.2"/><path d="M21 34h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g></svg><div class="orientation-copy"><strong>横屏观看，能量去路更清楚</strong><p>试着旋转手机；竖屏也可以继续操作。</p><div class="orientation-actions"><button id="orientation-dismiss" class="primary">知道了</button><button id="orientation-portrait">继续竖屏</button></div></div></aside>
+
+/* A page-level reading surface supports portrait-locked mobile browsers. */
+.brand b{display:flex;align-items:baseline;gap:.35em;flex-wrap:wrap;letter-spacing:0;line-height:1.6}
+.brand b .book-edition{display:inline;font:inherit;color:inherit;white-space:nowrap}
+.reading-controls{display:none;position:sticky;top:0;z-index:60;background:#f4f4e9f5;padding:4px 12px;text-align:right;border-bottom:1px solid #d8dfc8}
+.reading-controls button{font-size:12px;min-height:34px;background:#fff8df;padding:5px 12px}
+@media(max-width:1024px){.reading-controls{display:block}.brand{padding:5px 14px}.brand b{font-size:12px}}
+@media(orientation:landscape){.reading-controls{display:none}}
+body.manual-landscape{overflow:hidden;padding:0;height:100dvh}
+body.manual-landscape #lesson-page{position:fixed;z-index:50;left:100%;top:0;width:100dvh;height:100dvw;transform:rotate(90deg);transform-origin:0 0;overflow:auto;overscroll-behavior:contain;background:#f4f4e9}
+body.manual-landscape .reading-controls{display:block;padding:3px 12px}
+body.manual-landscape #fullscreen{display:none}
+body.manual-landscape header{display:none}
+body.manual-landscape main{padding:8px max(12px,env(safe-area-inset-right,0px)) 12px max(12px,env(safe-area-inset-left,0px))}
+body.manual-landscape .masthead h1{font-size:20px;line-height:1.3}
+body.manual-landscape nav{margin:6px 0 10px;gap:6px;flex-wrap:nowrap;overflow:auto;padding:2px 0 4px}
+body.manual-landscape nav button{font-size:12px;min-height:36px;padding:5px 10px;border-radius:10px;flex:1;white-space:nowrap}
+body.manual-landscape nav button small{font-size:10px;margin-right:5px}
+body.manual-landscape .board{border-radius:16px}
+body.manual-landscape .board-head{flex-direction:row;align-items:center;padding:7px 13px;gap:8px}
+body.manual-landscape h2{font-size:16px}
+body.manual-landscape .options{gap:10px;font-size:10px}
+body.manual-landscape .options label{min-height:28px}
+body.manual-landscape .options input{width:15px;height:15px}
+body.manual-landscape #teaching{display:flex;flex-direction:column}
+body.manual-landscape .controls{order:0;flex-wrap:nowrap;padding:5px 10px;gap:8px;min-height:44px}
+body.manual-landscape .buttons{position:static;display:flex;gap:5px;padding:0;border:0;border-radius:0;box-shadow:none;backdrop-filter:none;background:transparent}
+body.manual-landscape .buttons button{font-size:12px;min-height:34px;padding:5px 9px;border-radius:9px;white-space:nowrap}
+body.manual-landscape .buttons #next{font-size:12px}
+body.manual-landscape .buttons #play,body.manual-landscape .buttons #reset{font-size:0}
+body.manual-landscape .buttons #play:after{content:'自动';font-size:12px}
+body.manual-landscape .buttons #play[aria-pressed=true]:after{content:'暂停'}
+body.manual-landscape .buttons #reset:after{content:'重播';font-size:12px}
+body.manual-landscape .dots{width:auto;margin-left:auto;gap:0;flex-shrink:0}
+body.manual-landscape .dot{width:20px;height:30px}
+body.manual-landscape .counter{margin-left:5px;font-size:11px}
+body.manual-landscape .explain{order:1;padding:7px 13px;min-height:0;border-bottom:1px solid #e0d4a9}
+body.manual-landscape .explain:before{display:none}
+body.manual-landscape .explain h3{font-size:14px;margin:0 90px 3px 0;line-height:1.5}
+body.manual-landscape .explain p{font-size:12px;line-height:1.55}
+body.manual-landscape .explanation-toggle{display:block;position:absolute;right:10px;top:5px;min-height:32px;font-size:11px;padding:4px 9px;background:#fff9e9}
+body.manual-landscape .explain:not(.expanded) #step-text{display:-webkit-box;-webkit-line-clamp:1;-webkit-box-orient:vertical;overflow:hidden}
+body.manual-landscape .explain:not(.expanded) #formula{display:none}
+body.manual-landscape .explain.expanded #step-text{display:block}
+body.manual-landscape .formula{font-size:11px!important;margin-top:4px!important}
+body.manual-landscape .mobile-hint,body.manual-landscape .scene-tags{display:none}
+body.manual-landscape .canvas{order:2}
+body.manual-landscape .canvas>svg{max-height:none}
+body.manual-landscape .legend-wrap{order:3;padding:5px 10px;gap:8px;flex-direction:row;align-items:center;flex-wrap:nowrap}
+body.manual-landscape .legend{font-size:10px;line-height:1.4}
+body.manual-landscape .viewer-tools{display:flex;width:auto;margin-left:auto;gap:5px}
+body.manual-landscape .viewer-tools button{font-size:10px;min-height:32px;padding:4px 8px}
+body.manual-landscape .conversion{order:4;padding:12px 15px}
+body.manual-landscape .conversion-head{flex-direction:row;align-items:center}
+body.manual-landscape .conversion-head h3{font-size:16px}
+body.manual-landscape .conversion-equation{grid-template-columns:minmax(0,1fr) 18px minmax(0,1fr) 18px minmax(0,1fr);gap:7px;margin-top:9px}
+body.manual-landscape .quantity{min-height:76px;padding:8px 11px;flex-direction:row;align-items:center}
+body.manual-landscape .quantity small{font-size:12px}
+body.manual-landscape .quantity strong{font-size:24px}
+body.manual-landscape .quantity span{font-size:11px}
+body.manual-landscape .operation{font-size:22px}
+body.manual-landscape .partition{margin-top:9px;height:25px;font-size:11px}
+body.manual-landscape .conversion-bottom{flex-direction:row;align-items:center;margin-top:9px}
+body.manual-landscape .conversion-bottom button{min-height:36px;font-size:12px}
+body.manual-landscape .conversion-bottom p{font-size:12px}
+body.manual-landscape .conversion-assumption{margin-top:6px;font-size:10px}
+body.manual-landscape .note{font-size:10px;margin-top:10px}
+body.manual-landscape .next-lesson{min-height:34px;width:auto;margin-top:7px;font-size:12px}
+body.manual-landscape .board:fullscreen{display:flex;padding:0;height:100dvh;overflow:auto}
+body.manual-landscape .board:fullscreen .board-head{display:none}
+body.manual-landscape .board:fullscreen #teaching{flex:1;min-height:0}
+body.manual-landscape .board:fullscreen .canvas{flex:1;min-height:150px}
+body.manual-landscape .board:fullscreen .canvas>svg{position:absolute;inset:0;width:100%;height:100%;min-width:0;aspect-ratio:auto!important}
+body.manual-landscape .board:fullscreen .explain{padding:6px 13px}
+body.manual-landscape .board:fullscreen .legend{display:none}
+body.manual-landscape .board:fullscreen .viewer-tools{margin-left:auto}
+body.manual-landscape .board:fullscreen #teaching.converting .canvas{flex:none;height:180px}
+body.manual-landscape header{display:block}
+body.manual-landscape .brand{padding:4px 14px}
+body.manual-landscape .brand b{font-size:12px}
+body.manual-landscape .brand b .book-edition{display:inline}
+body.manual-landscape .canvas>svg{min-width:1020px}
+body.manual-landscape .canvas.fit>svg{min-width:0}
+@media(max-width:1024px) and (max-height:600px) and (orientation:landscape){.reading-controls{display:none}header{display:block}.brand{padding:4px 14px}.brand b{font-size:12px}}
+
+</style></head><body><div id="lesson-page"><header><div class="brand"><b>一生儿《高中生物一本通》· 选择性必修 2</b></div></header><div class="reading-controls"><button id="landscape-toggle" aria-pressed="false">横屏阅读</button></div><main><div class="masthead"><h1>生态系统的<span>能量流动</span></h1></div>
+<aside class="orientation-tip" id="orientation-tip" aria-label="横屏观看提示" hidden><svg class="rotate-phone" viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M8 17A18 18 0 0 1 38 10M38 3v8h-8" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/><g class="phone-outline"><rect x="15" y="10" width="18" height="29" rx="4" fill="#fffbee" stroke="currentColor" stroke-width="2.2"/><path d="M21 34h6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></g></svg><div class="orientation-copy"><strong>横屏观看，能量去路更清楚</strong><p>可旋转手机；若页面没有转动，点击“切换横屏”。</p><div class="orientation-actions"><button id="orientation-start" class="primary">切换横屏</button><button id="orientation-dismiss">知道了</button><button id="orientation-portrait">继续竖屏</button></div></div></aside>
 <nav aria-label="学习内容"><button data-mode="producer" aria-pressed="true"><small>01</small>生产者</button><button data-mode="primary" aria-pressed="false"><small>02</small>初级消费者</button><button data-mode="secondary" aria-pressed="false"><small>03</small>次级消费者</button><button data-mode="overview" aria-pressed="false"><small>04</small>全程总览</button><button data-mode="efficiency" aria-pressed="false"><small>05</small>传递效率</button></nav>
 <section class="board" id="board"><div class="board-head"><div><h2 id="lesson-title"></h2></div><div class="options" id="options"><label><input type="checkbox" id="numbers">显示示例数值</label><label><input type="checkbox" id="period">分析一定时间内的去向</label></div></div>
 <div id="teaching"><div class="controls"><div class="buttons"><button id="previous">上一步</button><button class="primary" id="next">下一步 →</button><button id="play" aria-label="自动演示" aria-pressed="false">自动演示</button><button id="reset" aria-label="重新演示">重新演示</button></div><div class="dots" id="steps"></div></div><div class="mobile-hint">横向追踪能量，点击展开；可放大或横屏查看。</div><div class="canvas paused fit" id="canvas"><div class="scene-tags" aria-hidden="true"><span>能量之旅</span><span>点击 · 展开 · 追踪</span></div><svg id="diagram" viewBox="0 30 1100 540" role="group" aria-label="当前营养级能量去向分步图"></svg></div><div class="legend-wrap"><div class="legend" id="legend">点击“下一步”，逐条展开能量去向。</div><div class="viewer-tools"><button id="fit-view" aria-pressed="true">放大细看</button><button id="effects" aria-pressed="true">动态效果：开</button><button id="fullscreen">全屏演示 ↗</button></div></div><section id="conversion" class="conversion hidden" aria-live="polite" aria-label="摄入量到同化量的分步拆解"></section><div class="explain" id="step-explanation" aria-live="polite"><button class="explanation-toggle" id="explanation-toggle" aria-expanded="false" aria-controls="step-text formula">展开说明</button><h3 id="step-title"></h3><p id="step-text"></p><p class="formula" id="formula"></p><button class="next-lesson hidden" id="next-lesson"></button></div></div>
 <div id="calculator" class="hidden"><div class="calculation"><div><div class="field"><label for="input">生产者同化量 <b id="input-value"></b></label><input id="input" type="range" min="1000" max="20000" step="1000" value="10000"><small>教学示例 · kJ/m²，同一观察期</small></div><div class="field"><label for="efficiency">每级传递效率 <b id="eff-value"></b></label><input id="efficiency" type="range" min="10" max="20" value="15"><small>一般为 10%～20%；这里为比较方便，设各级相同。</small></div></div><div><div id="bars"></div><p class="calc-summary" id="calc-formula"></p></div></div><div class="explain"><h3>分母、分子都是同化量</h3><p>能量传递效率 = 下一营养级同化量 ÷ 上一营养级同化量 × 100%。摄入的食物中，粪便所含能量没有被同化。</p></div></div></section>
-<p class="note" id="footnote"></p><p class="note" id="model-note">本模型以光合作用为基础、无人工补饲的简化生态系统为例。漫画角色代表相应营养级的汇总；图形大小、动画速度和线宽均为讲解示意，不代表实测比例。分解者不属于食物链的最后一个营养级。采用AI漫画角色和草地背景，生物位置保持不变，箭头按课件逻辑逐级展开。</p></main>
+<p class="note" id="footnote"></p><p class="note" id="model-note">本模型以光合作用为基础、无人工补饲的简化生态系统为例。漫画角色代表相应营养级的汇总；图形大小、动画速度和线宽均为讲解示意，不代表实测比例。分解者不属于食物链的最后一个营养级。采用AI漫画角色和草地背景，生物位置保持不变，箭头按课件逻辑逐级展开。</p></main></div>
 <script id="lesson-model">
 const Lessons={build(mode,period=false){
 const producer=mode==='producer',level=mode==='secondary'?2:1,current=producer?'生产者':level===1?'初级消费者':'次级消费者',next=producer?'初级消费者':level===1?'次级消费者':'三级消费者';
@@ -98,7 +183,17 @@ $('fit-view').onclick=()=>{fitted=!fitted;$('canvas').classList.toggle('fit',fit
 (()=>{
  if(typeof window==='undefined'||!window.matchMedia)return;
  const $=id=>document.getElementById(id),tip=$('orientation-tip'),portrait=window.matchMedia('(max-width:640px) and (orientation:portrait)'),key='energy-flow-orientation-dismissed';
- let dismissed=false,shown=false,expanded=false;
+ let dismissed=false,shown=false,expanded=false,manual=false;
+ function setLandscape(active){
+  manual=active&&window.innerHeight>window.innerWidth;
+  document.body.classList.toggle('manual-landscape',manual);
+  $('landscape-toggle').setAttribute('aria-pressed',String(manual));
+  $('landscape-toggle').textContent=manual?'退出横屏':'横屏阅读';
+  if(active)dismiss();
+ }
+ $('orientation-start').onclick=()=>setLandscape(true);
+ $('landscape-toggle').onclick=()=>setLandscape(!manual);
+ if(window.addEventListener)window.addEventListener('resize',()=>{if(manual&&window.innerWidth>window.innerHeight)setLandscape(false)});
  try{dismissed=window.sessionStorage.getItem(key)==='1'}catch(e){}
  function dismiss(){dismissed=true;tip.hidden=true;try{window.sessionStorage.setItem(key,'1')}catch(e){}}
  function update(){if(!portrait.matches&&shown){dismiss();return}tip.hidden=dismissed||!portrait.matches;if(!tip.hidden)shown=true}
